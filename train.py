@@ -99,7 +99,7 @@ def exercise(
             print(
                 clr(
                     "OH NO! Correct answer"
-                    f"{'s' if len(valid_answers) > 1 else ''}"
+                    f"{'s ' if len(valid_answers) > 1 else ' '}"
                     "would have been:\n",
                     "red",
                 )
@@ -166,7 +166,7 @@ if __name__ == "__main__":
     df["success"] = df["success"].astype(int).astype(str)
 
     RUN = True
-    
+
     STACK = []
 
     while RUN:
@@ -175,7 +175,7 @@ if __name__ == "__main__":
             by=["success"], key=lambda s: s.map(evaluate), inplace=True
         )
         index = 0
-        
+
         while True:
             row = df.iloc[index]
 
@@ -183,13 +183,11 @@ if __name__ == "__main__":
                 break
             else:
                 index += 1
-        
+
         STACK.append(row[0])
 
         if len(STACK) >= RESUBMISSION_INTERVAL:
             STACK.pop(0)
-
-        print(STACK)
 
         try:
             res = exercise(
