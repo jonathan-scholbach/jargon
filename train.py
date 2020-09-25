@@ -1,7 +1,7 @@
+import argparse
 import copy
 import datetime as dt
 from os import system, name
-import sys
 
 import pandas as pd
 from termcolor import colored as clr
@@ -21,7 +21,12 @@ def clear():
         _ = system("clear")
 
 
-def exercise(question: str, solution: str) -> bool:
+def exercise(
+    question: str, 
+    solution: str, 
+    treat_synonyms_as_alternatives: bool,
+) -> bool:
+    
     clear()
     solutions = [s.strip()  for s in solution.split(",")]
     remaining_solutions = copy.deepcopy(solutions)
@@ -39,11 +44,16 @@ def exercise(question: str, solution: str) -> bool:
 
         if answer in solutions:
             remaining_solutions.remove(answer)
-            print(
-                clr("CORRECT!", "green") +
-                (clr("\tKeep on naming synonyms!\n", "blue") if remaining_solutions else "")
-            )
-            
+            print(clr("CORRECT!", "green"))
+            if treat_synonyms_as_alternatives:
+                break
+            else:
+                print(
+                    clr("Keep on naming synonyms!\n", "blue") 
+                    if remaining_solutions 
+                    else ""
+                )
+
         else:
             print(clr("WRONG! Correct answer would have been: ", "red"))
             for s in remaining_solutions:
@@ -63,10 +73,33 @@ def evaluate(seq):
 
 if __name__ == "__main__":
     start = dt.datetime.now()
-    try:
-        FILE_PATH = sys.argv[1]
-    except IndexError:
-        FILE_PATH = "vocabulary.csv"
+    parser =  argparse.ArgumentParser()
+
+    parser.add_argument(
+        "file_path", 
+        type=str,
+        help=(
+            "Location of the vocabulary csv file, as relative file path "
+            "(relative to current working directory)"
+        ),
+        action="store"
+    )
+
+    parser.add_argument(
+        "-a", "--alternatives",
+        help=(
+            "If this flag is set, synonyms are treated as alternatives. That "
+            "means, you need to name only one synonym for your answer to be "
+            "considered correct."
+        ),
+        default=False,
+        action="store_true"
+    )
+
+    parsed = parser.parse_args()
+
+    FILE_PATH = parsed.file_path 
+    TREAT_SYNONYMS_AS_ALTERNATIVES = parsed.alternatives
 
     df = pd.read_csv(FILE_PATH, sep=";", skipinitialspace=True).fillna("0")
     df["success"] = df["success"].astype(int).astype(str)
@@ -83,7 +116,9 @@ if __name__ == "__main__":
         row = df.iloc[0]
                
         try:
-            row["success"] += str(int(exercise(row[1], row[0])))
+            res = exercise(row[1], row[0], TREAT_SYNONYMS_AS_ALTERNATIVES)
+            print(res)
+            row["success"] += str(int(res))
         except TerminateError:
             RUN = False
 
