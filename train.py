@@ -24,9 +24,10 @@ def exercise(question: str, solution: str) -> bool:
     clear()
     solutions = [s.strip()  for s in solution.split(",")]
     remaining_solutions = copy.deepcopy(solutions)
-
+    print(question + "\n\n")
+    
     while remaining_solutions:
-        answer = input(question + "\n\n")
+        answer = input()
 
         if answer == "x":
             raise TerminateError
@@ -36,7 +37,7 @@ def exercise(question: str, solution: str) -> bool:
         if answer in solutions:
             print(clr("CORRECT!", "green"))
             remaining_solutions.remove(answer)
-            if solutions:
+            if remaining_solutions:
                 print(clr("Keep on naming synonyms!\n", "blue"))
         else:
             print(clr("WRONG! Correct answer would have been: ", "red"))
