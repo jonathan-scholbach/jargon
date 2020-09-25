@@ -10,6 +10,7 @@ from utils import levenshtein
 
 
 RELEVANT_SUCCESS_SEQUENCE_LENGTH = 5
+RESUBMISSION_INTERVAL = 5
 
 
 class TerminateError(ValueError):
@@ -98,7 +99,7 @@ def exercise(
             print(
                 clr(
                     "OH NO! Correct answer"
-                    f"{'s' if len(valid_answers > 1) else ''}"
+                    f"{'s' if len(valid_answers) > 1 else ''}"
                     "would have been:\n",
                     "red",
                 )
@@ -159,16 +160,36 @@ if __name__ == "__main__":
     ALLOW_TYPOS = parsed.typos
 
     df = pd.read_csv(FILE_PATH, sep=";", skipinitialspace=True).fillna("0")
+    if "success" not in df.columns:
+        df["success"] = 0
+
     df["success"] = df["success"].astype(int).astype(str)
 
     RUN = True
+    
+    STACK = []
 
     while RUN:
         df.sort_values(by=["success"], key=lambda s: s.map(len), inplace=True)
         df.sort_values(
             by=["success"], key=lambda s: s.map(evaluate), inplace=True
         )
-        row = df.iloc[0]
+        index = 0
+        
+        while True:
+            row = df.iloc[index]
+
+            if row[0] not in STACK:
+                break
+            else:
+                index += 1
+        
+        STACK.append(row[0])
+
+        if len(STACK) >= RESUBMISSION_INTERVAL:
+            STACK.pop(0)
+
+        print(STACK)
 
         try:
             res = exercise(
@@ -186,7 +207,7 @@ if __name__ == "__main__":
     print(
         clr(
             f"You spent {int((end - start).total_seconds() / 60)} minutes in a "
-            "useful manner. Bye Bye!",
-            "blue",
+            "useful manner. Bye Bye!\n",
+            "cyan",
         )
     )

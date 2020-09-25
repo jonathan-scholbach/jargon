@@ -1,4 +1,4 @@
-__jargon__ is a minimalistic vocabulary trainer. The main idea of __jargon__ is to make it easy to create and share your custom vocabulary. When you run exercise on your vocabulary, __jargon__ keeps track of your learning progress on every item, and trains your weakest items most.
+__jargon__ is a minimalistic vocabulary trainer. Its main purpose is to keep creating and sharing your custom vocabulary simple, making it easier to learn domain-specific vocabulary. During practise, __jargon__ keeps track of your learning progress on every item, and trains your weakest items most.
 
 # Install
 
@@ -89,7 +89,7 @@ python train.py ../lessons/advanced_english_from_german.csv
 
 ## Options
 
-When you invoke the script, you can set several flags which change the behavior of the exercise:
+When you invoke the script, you can set several flags which change the way your knowledge is tested:
 
 + `-a` (or, with the same effect: `--alternatives`): This will make the program consider the synonyms as valid answers. If it is not set, all the synonyms have to be named by the user for the answer to be considered valid.
 
