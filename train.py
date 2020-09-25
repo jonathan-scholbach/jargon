@@ -1,6 +1,7 @@
+import copy
+import datetime as dt
 from os import system, name
 import sys
-import copy
 
 import pandas as pd
 from termcolor import colored as clr
@@ -37,10 +38,12 @@ def exercise(question: str, solution: str) -> bool:
         print("\n")
 
         if answer in solutions:
-            print(clr("CORRECT!", "green"))
             remaining_solutions.remove(answer)
-            if remaining_solutions:
-                print(clr("Keep on naming synonyms!\n", "blue"))
+            print(
+                clr("CORRECT!", "green") +
+                (clr("\tKeep on naming synonyms!\n", "blue") if remaining_solutions else "")
+            )
+            
         else:
             print(clr("WRONG! Correct answer would have been: ", "red"))
             for s in remaining_solutions:
@@ -59,6 +62,7 @@ def evaluate(seq):
 
 
 if __name__ == "__main__":
+    start = dt.datetime.now()
     try:
         FILE_PATH = sys.argv[1]
     except IndexError:
@@ -82,8 +86,14 @@ if __name__ == "__main__":
             row["success"] += str(int(exercise(row[1], row[0])))
         except TerminateError:
             RUN = False
-            
+
         df.to_csv(FILE_PATH, sep=";", index=False)
 
     clear()
-    print(clr("Bye Bye!", "blue"))
+    end = dt.datetime.now()
+    print(
+        clr(
+            f"You spent {int((end - start).total_seconds() / 60)} minutes in a "
+            "useful manner. Bye Bye!", 
+            "blue")
+    )
