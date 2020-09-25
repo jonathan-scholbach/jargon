@@ -22,15 +22,24 @@ def clear():
 def exercise(question: str, solution: str) -> bool:
     clear()
     solutions = [s.strip()  for s in solution.split(",")]
-    answer = input(question + "\n\n")
-    print("\n")
-    if answer == "x":
-        raise TerminateError
+    while solutions:
+        answer = input(question + "\n\n")
 
-    if answer in solutions:
-        print(clr("CORRECT!", "green"))
-    else:
-        print(clr(f"WRONG! Correct answer would have been: {solution}", "red"))
+        if answer == "x":
+            raise TerminateError
+
+        print("\n")
+
+        if answer in solutions:
+            print(clr("CORRECT!", "green"))
+            solutions.remove(answer)
+            if solutions:
+                print(clr("Keep on naming synonyms!\n", "blue"))
+        else:
+            print(clr("WRONG! Correct answer would have been: ", "red"))
+            for s in solutions:
+                print(clr(s, "blue"))
+            break
 
     input()
 
