@@ -1,5 +1,6 @@
 from os import system, name
 import sys
+import copy
 
 import pandas as pd
 from termcolor import colored as clr
@@ -22,7 +23,9 @@ def clear():
 def exercise(question: str, solution: str) -> bool:
     clear()
     solutions = [s.strip()  for s in solution.split(",")]
-    while solutions:
+    remaining_solutions = copy.deepcopy(solutions)
+
+    while remaining_solutions:
         answer = input(question + "\n\n")
 
         if answer == "x":
@@ -32,18 +35,18 @@ def exercise(question: str, solution: str) -> bool:
 
         if answer in solutions:
             print(clr("CORRECT!", "green"))
-            solutions.remove(answer)
+            remaining_solutions.remove(answer)
             if solutions:
                 print(clr("Keep on naming synonyms!\n", "blue"))
         else:
             print(clr("WRONG! Correct answer would have been: ", "red"))
-            for s in solutions:
+            for s in remaining_solutions:
                 print(clr(s, "blue"))
             break
 
     input()
 
-    return answer in solutions
+    return answer in remaining_solutions
 
 
 def evaluate(seq):
