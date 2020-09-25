@@ -9,7 +9,7 @@ In order to install __jargon__, the following prerequisites are required:
 + [`virtualenv`](https://pypi.org/project/virtualenv/) (optional)
 + `pip` (usually installed with Python)
 
-With these, prerequisites installed, open a terminal, move to the location you want to install __jargon__ to and type:
+With these prerequisites installed, open a terminal, move to the location you want to install __jargon__ to and type:
 
 ```
 git clone git@github.com:jonathan-scholbach/jargon.git
@@ -18,7 +18,7 @@ virtualenv env --python=python3.8
 pip install -r requirements.txt
 ```
 
-If you do not have `git` installed and do not want to install it, just download the directory from https://github.com/jonathan-scolbach/jargon and proceed from the second line.
+If you do not have `git` installed and do not want to install it, just download the directory from https://github.com/jonathan-scolbach/jargon and proceed from the second line. If you do not have `virtualenv` installed and do not want to install it, you can skip the third line. This will install the requirements globally on your machine.
 
 # Create Custom Vocabulary
 
@@ -26,7 +26,7 @@ Your custom vocabulary must be put in a [csv](https://en.wikipedia.org/wiki/Comm
 
 # Run
 
-In order to run __jargon__, you need to move into the directory you have installed __jargon__ to. You have to activate the virtual environment first, by typing in a terminal:
+In order to run __jargon__, you need to move into the directory you have installed __jargon__ to. If you were using the virtual environment during install, you have to activate it first, by typing in a terminal:
 
 On Linux / macOS:
 
@@ -40,7 +40,7 @@ On Windows:
 env\Scripts\activate.bat
 ```
 
-Afterwards, you can run the Python script:
+Now you can run the Python script:
 
 ```
 python train.py <RELATIVE PATH TO YOUR VOCABULARY CSV> 
@@ -54,11 +54,11 @@ python train.py ../lessons/advanced_english_from_german.csv
 
 If you do not provide the path to your vocabulary, `vocabulary.csv` will be used as a default.
 
-To finish your exercise, just type `"x"` instead of an answer. This will quit the program and save your learning progress. If you cancel the program in other ways, your progress will not be stored.
+To finish your exercise, just type `"x"` when prompted for the vocabulary answer. This will quit the program and save your learning progress. If you quit the program in a different way, your progress will not be stored.
 
 # Missing Features
 
-__jargon__ is minimalistic, it is wirtten just to provide an easy way to exercise on custom vocabulary. Hence there are some functionalities you might miss:
+__jargon__ is minimalistic, it is written just to provide an easy way to exercise on custom vocabulary. Hence there are some functionalities you might miss:
 
 ## Multiple Users
 
