@@ -48,24 +48,25 @@ if __name__ == "__main__":
     except IndexError:
         FILE_PATH = "vocab.csv"
 
-    df =pd.read_csv(FILE_PATH, sep=";", skipinitialspace=True).fillna("0")
+    df = pd.read_csv(FILE_PATH, sep=";", skipinitialspace=True).fillna("0")
     df["success"] = df["success"].astype(int).astype(str)
 
     RUN = True
 
     while RUN:
         df.sort_values(
+            by=["success"], key=lambda s: s.map(len), inplace=True
+        )
+        df.sort_values(
             by=["success"], key=lambda s: s.map(evaluate), inplace=True
         )
-        row = df.iloc[1]
-
-        for _, row in df.iterrows():
-            try:
-                row["success"] += str(int(exercise(row[1], row[0])))
-            except TerminateError:
-                df.to_csv(FILE_PATH, sep=";", index=False)
-                RUN = False
-                break
+        row = df.iloc[0]
+               
+        try:
+            row["success"] += str(int(exercise(row[1], row[0])))
+        except TerminateError:
+            df.to_csv(FILE_PATH, sep=";", index=False)
+            RUN = False
 
     clear()
     print(clr("Bye Bye!", "blue"))
