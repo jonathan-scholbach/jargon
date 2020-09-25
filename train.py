@@ -21,20 +21,20 @@ def clear():
 
 def exercise(question: str, solution: str) -> bool:
     clear()
-
+    solutions = [s.strip()  for s in solution.split(",")]
     answer = input(question + "\n\n")
     print("\n")
     if answer == "x":
         raise TerminateError
 
-    if answer == solution:
+    if answer in solutions:
         print(clr("CORRECT!", "green"))
     else:
         print(clr(f"WRONG! Correct answer would have been: {solution}", "red"))
 
     input()
 
-    return answer == solution
+    return answer in solutions
 
 
 def evaluate(seq):
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     try:
         FILE_PATH = sys.argv[1]
     except IndexError:
-        FILE_PATH = "vocab.csv"
+        FILE_PATH = "vocabulary.csv"
 
     df = pd.read_csv(FILE_PATH, sep=";", skipinitialspace=True).fillna("0")
     df["success"] = df["success"].astype(int).astype(str)

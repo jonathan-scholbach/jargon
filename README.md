@@ -22,7 +22,10 @@ If you do not have `git` installed and do not want to install it, just download 
 
 # Create Custom Vocabulary
 
-Your custom vocabulary must be put in a [csv](https://en.wikipedia.org/wiki/Comma-separated_values) file which has three columns, separated by semicolon (`";"`). The first column is the target language you want to train, the second column is your native language, the third column must be called "success" and will be used to track your performance for each vocabulary.
+## Format
+Your custom vocabulary must be put in a [csv](https://en.wikipedia.org/wiki/Comma-separated_values) file which has three columns, separated by semicolon (`";"`). The first column contains the vocabulary in the target language you want to train, the second column contains the translation of the vocabulary into your native language, the third column must be called "success". Keep it empty, it will be used to track your performance for each vocabulary.
+
+If you want to name multiple synonyms in one of the languages, separate them by comma.
 
 # Run
 
