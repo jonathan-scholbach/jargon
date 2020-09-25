@@ -57,7 +57,7 @@ python train.py ../lessons/advanced_english_from_german.csv
 
 If you do not provide the path to your vocabulary, `vocabulary.csv` will be used as a default.
 
-To finish your exercise, just type `"x"` when prompted for the vocabulary answer. This will quit the program and save your learning progress. If you quit the program in a different way, your progress will not be stored.
+To finish your exercise, just type `"x"` when prompted for the vocabulary answer.
 
 # Missing Features
 

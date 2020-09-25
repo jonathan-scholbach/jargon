@@ -24,8 +24,10 @@ def exercise(question: str, solution: str) -> bool:
     clear()
     solutions = [s.strip()  for s in solution.split(",")]
     remaining_solutions = copy.deepcopy(solutions)
-    print(question + "\n\n")
+    print(clr(question, "yellow") + "\n\n")
     
+    answer_correct = True
+
     while remaining_solutions:
         answer = input()
 
@@ -43,11 +45,12 @@ def exercise(question: str, solution: str) -> bool:
             print(clr("WRONG! Correct answer would have been: ", "red"))
             for s in remaining_solutions:
                 print(clr(s, "blue"))
+            answer_correct = False
             break
 
     input()
 
-    return answer in remaining_solutions
+    return answer_correct
 
 
 def evaluate(seq):
@@ -78,8 +81,9 @@ if __name__ == "__main__":
         try:
             row["success"] += str(int(exercise(row[1], row[0])))
         except TerminateError:
-            df.to_csv(FILE_PATH, sep=";", index=False)
             RUN = False
+            
+        df.to_csv(FILE_PATH, sep=";", index=False)
 
     clear()
     print(clr("Bye Bye!", "blue"))
