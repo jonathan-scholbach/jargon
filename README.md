@@ -60,15 +60,15 @@ For an example, have a look at the example csv file `example_vocabulary.csv` in 
 
 # Run
 
-In order to run __jargon__, you need to move into the directory you have installed __jargon__ to. If you were using the virtual environment during install, you have to activate it first, by typing in a terminal:
+__jargon__ does not have a graphical user interface, but runs in the terminal. In order to run __jargon__, you need to move into the directory you have installed __jargon__ to (in a terminal). If you were using the virtual environment during install, you have to activate it first, by typing:
 
-On Linux / macOS:
++ On Linux / macOS:
 
 ```
 source env/bin/activate
 ```
  
-On Windows:
++ On Windows:
 
 ```
 env\Scripts\activate.bat

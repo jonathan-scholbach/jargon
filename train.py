@@ -3,14 +3,10 @@ import datetime as dt
 from os import system, name
 import typing as tp
 
-import pandas as pd
 from termcolor import colored as clr
 
 from utils import levenshtein
-
-
-RELEVANT_SUCCESS_SEQUENCE_LENGTH = 5
-RESUBMISSION_INTERVAL = 5
+from progress import Progress
 
 
 class TerminateError(ValueError):
@@ -64,7 +60,6 @@ def exercise(
     treat_synonyms_as_alternatives: bool = False,
     allow_typos: bool = False,
 ) -> bool:
-
     clear()
     valid_answers = [s.strip() for s in solution.split(",")]
 
@@ -114,11 +109,6 @@ def exercise(
     return answer_correct
 
 
-def evaluate(seq):
-    LEN = min(len(seq), RELEVANT_SUCCESS_SEQUENCE_LENGTH)
-    return sum([int(char) for char in seq[-LEN:]]) / LEN
-
-
 if __name__ == "__main__":
     start = dt.datetime.now()
     parser = argparse.ArgumentParser()
@@ -159,46 +149,31 @@ if __name__ == "__main__":
     TREAT_SYNONYMS_AS_ALTERNATIVES = parsed.alternatives
     ALLOW_TYPOS = parsed.typos
 
-    df = pd.read_csv(FILE_PATH, sep=";", skipinitialspace=True).fillna("0")
-    if "success" not in df.columns:
-        df["success"] = 0
-
-    df["success"] = df["success"].astype(int).astype(str)
+    progress = Progress(FILE_PATH)
 
     RUN = True
 
-    STACK = []
+    blocked_questions = []
 
     while RUN:
-        df.sort_values(by=["success"], key=lambda s: s.map(len), inplace=True)
-        df.sort_values(
-            by=["success"], key=lambda s: s.map(evaluate), inplace=True
-        )
-        index = 0
-
-        while True:
-            row = df.iloc[index]
-
-            if row[0] not in STACK:
-                break
-            else:
-                index += 1
-
-        STACK.append(row[0])
-
-        if len(STACK) >= RESUBMISSION_INTERVAL:
-            STACK.pop(0)
+        entry = progress.next_entry(blocked_questions=blocked_questions)
+        question, solution = entry.question, entry.solution
+        blocked_questions.append(question)
+        if len(blocked_questions) >= progress.RESUBMISSION:
+            blocked_questions.pop(0)
 
         try:
-            res = exercise(
-                row[1], row[0], TREAT_SYNONYMS_AS_ALTERNATIVES, ALLOW_TYPOS
+            result = exercise(
+                question=question,
+                solution=solution,
+                treat_synonyms_as_alternatives=TREAT_SYNONYMS_AS_ALTERNATIVES,
+                allow_typos=ALLOW_TYPOS,
             )
-            print(res)
-            row["success"] += str(int(res))
+
+            progress.enter_result(question, result)
+
         except TerminateError:
             RUN = False
-
-        df.to_csv(FILE_PATH, sep=";", index=False)
 
     clear()
     end = dt.datetime.now()
