@@ -1,0 +1,2 @@
+class TerminateError(ValueError):
+    pass

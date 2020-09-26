@@ -1,23 +1,10 @@
-import argparse
 import datetime as dt
-from os import system, name
 import typing as tp
 
-from termcolor import colored as clr
-
-from utils import levenshtein
-from progress import Progress
-
-
-class TerminateError(ValueError):
-    pass
-
-
-def clear():
-    if name == "nt":  # for windows
-        _ = system("cls")
-    else:
-        _ = system("clear")
+from src.io import parser, cprint, clear
+from src.progress import Progress
+from src.utils import levenshtein
+from src.errors import TerminateError
 
 
 def evaluate_answer(
@@ -35,12 +22,8 @@ def evaluate_answer(
             elif delta <= 1 or (
                 len(answer) == len(valid_answer) and delta == 2
             ):
-                print(
-                    clr(
-                        "Beware of typos! The correct answer is: \n\n\t", "cyan"
-                    )
-                    + clr(valid_answer + "\n", "blue")
-                )
+                cprint("Beware of typos! The correct answer is:", "cyan")
+                cprint(f"\n\t{valid_answer}\n", "blue")
                 answer = valid_answer
                 break
 
@@ -63,7 +46,7 @@ def exercise(
     clear()
     valid_answers = [s.strip() for s in solution.split(",")]
 
-    print(clr(question, "yellow") + "\n\n")
+    cprint(question + "\n\n", "yellow")
 
     while valid_answers:
         answer = input()
@@ -81,26 +64,18 @@ def exercise(
         )
 
         if answer_correct:
-            print(
-                clr("WELL DONE!", "green")
-                + (
-                    clr(" Keep on naming synonyms!\n", "cyan")
-                    if valid_answers
-                    else ""
-                )
-            )
+            cprint("WELL DONE!", "green")
+            if valid_answers:
+                cprint(" Keep on naming synonyms!\n", "cyan")
 
         else:
-            print(
-                clr(
-                    "OH NO! Correct answer"
-                    f"{'s ' if len(valid_answers) > 1 else ' '}"
-                    "would have been:\n",
-                    "red",
-                )
+            cprint(                
+                "OH NO! Correct answer"
+                f"{'s ' if len(valid_answers) > 1 else ' '} would have been:\n",
+                "red",
             )
             for s in valid_answers:
-                print(clr("\t" + s, "blue"))
+                cprint("\t" + s, "blue")
             answer_correct = False
             break
 
@@ -111,49 +86,6 @@ def exercise(
 
 if __name__ == "__main__":
     start = dt.datetime.now()
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "file_path",
-        type=str,
-        help=(
-            "Location of the vocabulary csv file, as relative file path "
-            "(relative to current working directory)"
-        ),
-        action="store",
-    )
-
-    parser.add_argument(
-        "-a",
-        "--alternatives",
-        help=(
-            "If this flag is set, synonyms are treated as alternatives. That "
-            "means, you need to name only one synonym for your answer to be "
-            "considered correct."
-        ),
-        default=False,
-        action="store_true",
-    )
-
-    parser.add_argument(
-        "-t",
-        "--typos",
-        help=("If this flag is set, typos are accepted as correct answers."),
-        default=False,
-        action="store_true",
-    )
-
-    parser.add_argument(
-        "-u",
-        "--user",
-        help=(
-            "Name a user. This will keep track of each user's progress "
-            "separately."
-        ),
-        default="default_user",
-        action="store",
-    )
-
     parsed = parser.parse_args()
 
     vocab_file_path = parsed.file_path
@@ -190,10 +122,8 @@ if __name__ == "__main__":
 
     clear()
     end = dt.datetime.now()
-    print(
-        clr(
-            f"You spent {int((end - start).total_seconds() / 60)} minutes in a "
-            "useful manner. Bye Bye!\n",
-            "cyan",
-        )
+    cprint(    
+        f"You spent {int((end - start).total_seconds() / 60)} minutes in a "
+        "useful manner. Bye Bye!\n",
+        "cyan"
     )
