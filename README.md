@@ -89,22 +89,17 @@ python train.py ../lessons/advanced_english_from_german.csv
 
 ## Options
 
-When you invoke the script, you can set several flags which change the way your knowledge is tested:
+When you invoke the script, you can (optionally) set several flags which change the way your knowledge is tested:
 
 + `-a` (or, with the same effect: `--alternatives`): This will make the program consider the synonyms as valid answers. If it is not set, all the synonyms have to be named by the user for the answer to be considered valid.
 
 + `-t` (or, with the same effect: `--typo`): This will make the program consider answers valid if they contain a typo.
 
+Besides setting these flags, you can (optionally) specify the following variables:
+
++ `-u` (or, with the same effect: `--user`): You can enter a user's name to keep track of progress individually.
+
+
+## Finish
+
 To finish your exercise, just type `"x"` when prompted for the vocabulary answer.
-
-# Missing Features
-
-__jargon__ is minimalistic, it is written for users who need an easy and quick way to train their specialised vocabulary. There are some functionalities you might miss:
-
-## Multiple Users
-
-__jargon__ does not have built-in functionality to keep track of learning progress of different users. However, since the learning progress is stored alongside the vocabulary (in the same file), multiple users can track their progress individually by creating separate vocabulary files per user.
-
-## Lessons
-
-__jargon__ does not separate vocabulary in different lessons. However, you can organize your different lessons in different vocabulary csv files.

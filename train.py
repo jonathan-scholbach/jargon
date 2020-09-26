@@ -143,13 +143,25 @@ if __name__ == "__main__":
         action="store_true",
     )
 
+    parser.add_argument(
+        "-u",
+        "--user",
+        help=(
+            "Name a user. This will keep track of each user's progress "
+            "separately."
+        ),
+        default="default_user",
+        action="store",
+    )
+
     parsed = parser.parse_args()
 
-    FILE_PATH = parsed.file_path
-    TREAT_SYNONYMS_AS_ALTERNATIVES = parsed.alternatives
-    ALLOW_TYPOS = parsed.typos
+    vocab_file_path = parsed.file_path
+    treat_synonyms_as_alternatives = parsed.alternatives
+    allow_typos = parsed.typos
+    user = parsed.user
 
-    progress = Progress(FILE_PATH)
+    progress = Progress(vocab_file_path=vocab_file_path, user=user)
 
     RUN = True
 
@@ -163,14 +175,15 @@ if __name__ == "__main__":
             blocked_questions.pop(0)
 
         try:
-            result = exercise(
-                question=question,
-                solution=solution,
-                treat_synonyms_as_alternatives=TREAT_SYNONYMS_AS_ALTERNATIVES,
-                allow_typos=ALLOW_TYPOS,
+            progress.enter_result(
+                question,
+                exercise(
+                    question=question,
+                    solution=solution,
+                    treat_synonyms_as_alternatives=treat_synonyms_as_alternatives,
+                    allow_typos=allow_typos,
+                ),
             )
-
-            progress.enter_result(question, result)
 
         except TerminateError:
             RUN = False
