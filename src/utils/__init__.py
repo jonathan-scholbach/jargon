@@ -1,1 +1,1 @@
-from .levenshtein import levenshtein
+from .damerau_levenshtein import damerau_levenshtein

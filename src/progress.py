@@ -14,7 +14,6 @@ class Progress:
     DIR = ".progress"
     SEP = ";"
     SEQ_LENGTH = 3  # relevant progress sequence length
-    RESUBMISSION = 5  # Resubmission interval
 
     def __init__(self, vocab_file_path: str, user: str = "default_user"):
         self.vocab_file_path = vocab_file_path

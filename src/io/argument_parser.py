@@ -1,19 +1,19 @@
 import argparse
 
 
-parser = argparse.ArgumentParser()
+argument_parser = argparse.ArgumentParser()
 
-parser.add_argument(
+argument_parser.add_argument(
     "file_path",
     type=str,
     help=(
-        "Location of the vocabulary csv file, as relative file path "
-        "(relative to current working directory)"
+        "Location of the vocabulary csv file, as file path relative to current "
+        "working directory)."
     ),
     action="store",
 )
 
-parser.add_argument(
+argument_parser.add_argument(
     "-a",
     "--alternatives",
     help=(
@@ -25,7 +25,7 @@ parser.add_argument(
     action="store_true",
 )
 
-parser.add_argument(
+argument_parser.add_argument(
     "-t",
     "--typos",
     help=("If this flag is set, typos are accepted as correct answers."),
@@ -33,7 +33,7 @@ parser.add_argument(
     action="store_true",
 )
 
-parser.add_argument(
+argument_parser.add_argument(
     "-u",
     "--user",
     help=(
