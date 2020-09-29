@@ -53,4 +53,3 @@ argument_parser.add_argument(
     default="default_user",
     action="store",
 )
-

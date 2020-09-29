@@ -4,10 +4,7 @@ from os import makedirs
 
 import typing as tp
 
-
-ProgressEntry = namedtuple(
-    "ProgressEntry", "solution question progress", defaults=["", "", "0"]
-)
+from src.vocable import Vocable
 
 
 class Progress:
@@ -15,14 +12,18 @@ class Progress:
     SEP = ";"
     SEQ_LENGTH = 3  # relevant progress sequence length
 
-    def __init__(self, vocab_file_path: str, user: str = "default_user"):
+    def __init__(
+        self,
+        vocab_file_path: str,
+        user: str = "default_user",
+        inverted: bool = False,
+    ):
         self.vocab_file_path = vocab_file_path
         self.user = user
+        self._inverted = inverted
         self.__load()
 
-    def __getitem__(
-        self, key: tp.Union[int, slice, str]
-    ) -> tp.Optional["ProgressEntry"]:
+    def __getitem__(self, key: tp.Union[int, slice]) -> tp.Optional["Vocable"]:
         self.__sort()
 
         return self.data[key]
@@ -39,7 +40,7 @@ class Progress:
     def __path(self):
         """Path where to take progress data from and where to store to.
 
-        This depends on the vocabulary file, its last modification date and the
+        This depends on the vocable file, its last modification date and the
         user.
         """
         return pathjoin(
@@ -54,7 +55,9 @@ class Progress:
 
         with open(path, "r") as file:
             self.data = [
-                ProgressEntry(*[cell.strip() for cell in line.split(";")])
+                Vocable(
+                    *[cell.strip() for cell in line.split(self.SEP)]
+                )
                 for line in file
             ]
 
@@ -62,47 +65,45 @@ class Progress:
         """Push entries with weak performance to the top.
 
         If performance of two entries equals over recent exercises, prioritize
-        the entry with lesser practice.
+        the vocable with lesser practice.
         """
         self.data.sort(
-            key=lambda entry: (
-                sum(
-                    [  # average performance on recent practices
-                        int(char)
-                        for char in entry.progress[
-                            -min(self.SEQ_LENGTH, len(entry.progress))
-                        ]
-                    ]
-                )
-                / len(entry.progress),
-                len(entry.progress),
-            ),
+            key=lambda vocable: vocable.progress_rank(self.SEQ_LENGTH)
         )
 
     def __store(self) -> None:
         if not exists(self.__path):
             makedirs(self.__dir, exist_ok=True)
         with open(self.__path, "w+") as file:
-            for entry in self.data:
-                file.write("; ".join([*entry]) + "\n")
+            for vocable in self.data:
+                file.write(
+                    self.SEP.join(
+                        [vocable.raw_target, vocable.raw_source, vocable.progress]
+                    )
+                    + "\n"
+                )
 
-    def __find(self, question: str) -> tp.Optional[int]:
-        for index, entry in enumerate(self.data):
-            if entry.question == question:
-                return index
-
-    def enter_result(self, question: str, result: bool):
-        index = self.__find(question)
-        entry = self.data[index]
-        self.data[index] = ProgressEntry(
-            question=entry.question,
-            solution=entry.solution,
-            progress=entry.progress + str(int(result)),
+    def __find(self, vocable: str) -> tp.Optional[int]:
+        return self.data.index(vocable)
+            
+    def enter_result(self, vocable: "Vocable", result: bool):
+        index = self.__find(vocable)
+        vocable = self.data[index]
+        self.data[index] = Vocable(
+            source=vocable.raw_source,
+            target=vocable.raw_target,
+            progress=vocable.progress + str(int(result)),
         )
         self.__store()
 
-    def next_entry(self, blocked_questions=tp.List[str]) -> "ProgressEntry":
-        candidates = self[: len(blocked_questions) + 1]
-        for candidate in candidates:
-            if candidate.question not in blocked_questions:
-                return candidate
+    def next_vocable(self, blocked_vocables=tp.List["Vocable"]) -> "Vocable":
+        self.__sort()
+
+        vocable = next(
+            vocab
+            for vocab in self[: max(len(blocked_vocables) + 1, len(self.data))]
+            if vocab not in blocked_vocables
+        )
+        vocable = vocable.invert() if self._inverted else vocable
+
+        return vocable 

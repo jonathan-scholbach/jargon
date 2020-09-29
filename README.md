@@ -16,13 +16,15 @@ That's it, you are set.
 
 Your custom vocabulary must be put in a [`csv`](https://en.wikipedia.org/wiki/Comma-separated_values) file which has to have two columns, separated by semicolon (`";"`). You can create this file with a simple text editor or, if this is more convenient for you, with a spreadsheet program such as [OpenOffice](https://www.openoffice.org/product/calc.html) Calc, Microsoft Excel or GoogleSheets
 
-The first column contains the vocabulary in the target language you want to train. The second column contains the translation of the vocabulary into your native language.
+The first column contains the vocable in the target language you want to train. The second column contains the vocable translated in your native language.
 
-If you want to name multiple synonyms in one of the languages, write them into the same cell, separated by comma.
+If you want to name multiple synonyms of the vocable in one of the languages, write them into the same cell, separated by a pipe (`"|"`).
 
 For an example, have a look at the example csv file `example_vocabulary.csv` in the repository.
 
 # Run
+
+## Start
 
 __jargon__ does not have a graphical user interface, but runs on the command line (terminal). In order to run __jargon__, you need to move into the directory you have installed __jargon__ to (in a terminal). 
 Now you can run the Python script:
@@ -46,7 +48,7 @@ When you invoke the script, you can (optionally) set several flags which change 
 
 + `-t` (or, with the same effect: `--typo`): This will make the program consider answers valid if they contain a typo.
 
-+ `-i` (or, with the same effect: `--invert`): This flips the order of languages in the vocabulary file. It will make the program consider present you questions in the target language and ask for answers in your native language.
++ `-i` (or, with the same effect: `--invert`): This flips the languages in the vocabulary file, i.e. it will make the program consider present you questions in the target language and ask for answers in your native language.
 
 Besides setting these flags, you can (optionally) specify the following variables:
 
