@@ -18,7 +18,7 @@ argument_parser.add_argument(
     "--alternatives",
     help=(
         "If this flag is set, synonyms are treated as alternatives. That "
-        "means, you need to name only one synonym for your answer to be "
+        "means, you need to name only one of the synonyms for your answer to be "
         "considered correct."
     ),
     default=False,
@@ -34,6 +34,16 @@ argument_parser.add_argument(
 )
 
 argument_parser.add_argument(
+    "-i",
+    "--invert",
+    help=(
+        "If this flag is set, the order of languages in the vocabular file is "
+        "flipped."
+    ),
+    action="store_true",
+)
+
+argument_parser.add_argument(
     "-u",
     "--user",
     help=(
@@ -43,3 +53,4 @@ argument_parser.add_argument(
     default="default_user",
     action="store",
 )
+

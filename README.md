@@ -46,6 +46,8 @@ When you invoke the script, you can (optionally) set several flags which change 
 
 + `-t` (or, with the same effect: `--typo`): This will make the program consider answers valid if they contain a typo.
 
++ `-i` (or, with the same effect: `--invert`): This flips the order of languages in the vocabulary file. It will make the program consider present you questions in the target language and ask for answers in your native language.
+
 Besides setting these flags, you can (optionally) specify the following variables:
 
 + `-u` (or, with the same effect: `--user`): You can enter a user's name to keep track of progress individually.

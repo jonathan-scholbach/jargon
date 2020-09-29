@@ -13,10 +13,12 @@ class Exercise:
         treat_synonyms_as_alternatives: bool = False,
         allow_typos: bool = False,
         resubmission_interval: int = 5,
+        invert: bool = False,
     ) -> None:
         self.progress = progress
         self.treat_synonyms_as_alternatives = treat_synonyms_as_alternatives
         self.allow_typos = allow_typos
+        self.invert = invert
 
         self.start = dt.datetime.now()
         self.blocked_questions = []
@@ -46,6 +48,9 @@ class Exercise:
 
     def ask_question(self, question: str, solution: str) -> bool:
         clear()
+        if self.invert:
+            question, solution = solution, question
+
         valid_answers = [s.strip() for s in solution.split(",")]
 
         cprint(question + "\n\n", "yellow")
