@@ -30,13 +30,13 @@ __jargon__ does not have a graphical user interface, but runs on the command lin
 Now you can run the Python script:
 
 ```
-python3 practise.py <RELATIVE PATH TO YOUR VOCABULARY CSV> 
+python3 jargon.py <RELATIVE PATH TO YOUR VOCABULARY CSV> 
 ```
 
 For example:
 
 ```
-python3 practise.py ../lessons/advanced_english_from_german.csv 
+python3 jargon.py ../lessons/advanced_english_from_german.csv 
 ```
 
 

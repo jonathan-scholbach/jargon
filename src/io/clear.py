@@ -6,3 +6,5 @@ def clear():
         _ = system("cls")
     else:
         _ = system("clear")
+
+    print("\n")

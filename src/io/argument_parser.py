@@ -6,6 +6,8 @@ argument_parser = argparse.ArgumentParser()
 argument_parser.add_argument(
     "file_path",
     type=str,
+    nargs="?",
+    default="",
     help=(
         "Location of the vocabulary csv file, as file path relative to current "
         "working directory)."

@@ -48,7 +48,7 @@ class Exercise:
         valid_answers = vocable.target
 
         while valid_answers:
-            answer = input()
+            answer = input("\t")
 
             if answer == "x":
                 raise TerminateError
