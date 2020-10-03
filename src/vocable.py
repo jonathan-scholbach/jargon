@@ -54,7 +54,7 @@ class Vocable:
     ) -> tp.Tuple[float, int]:
         """Average performance and number of previous training rounds."""
         if not self.progress:  # vocable has not been trained before
-            return default, len(self.progress)
+            return default, 0
 
         return (
             sum(

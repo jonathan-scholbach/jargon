@@ -9,21 +9,20 @@ from src.utils import damerau_levenshtein
 class Exercise:
     def __init__(
         self,
-        progress: "Progress",
+        lesson: "Lesson",
         treat_synonyms_as_alternatives: bool = False,
         allow_typos: bool = False,
         resubmission_interval: int = 5,
     ) -> None:
-        self.progress = progress
+        self.lesson = lesson
         self.treat_synonyms_as_alternatives = treat_synonyms_as_alternatives
         self.allow_typos = allow_typos
 
-        self.start = dt.datetime.now()
         self.blocked_vocables = []
         self.resubmission_interval = resubmission_interval
 
     def run(self):
-        vocable = self.progress.next_vocable(self.blocked_vocables)
+        vocable = self.lesson.next_vocable(self.blocked_vocables)
 
         self.blocked_vocables.append(vocable)
 
@@ -31,14 +30,14 @@ class Exercise:
             self.blocked_vocables.pop(0)
 
         try:
-            self.progress.enter_result(
+            self.lesson.enter_result(
                 vocable,
                 self.__ask_question(vocable=vocable),
             )
             self.run()
 
         except TerminateError:
-            self.__quit()
+            return
 
     def __ask_question(self, vocable: "Vocable") -> bool:
         clear()
@@ -56,9 +55,7 @@ class Exercise:
             if answer == "?":
                 print()
                 cprint(
-                    f"({vocable.hint})"
-                    if vocable.hint
-                    else "No hint available",
+                    vocable.hint if vocable.hint else "No hint available",
                     "magenta",
                 )
                 print()
@@ -78,8 +75,9 @@ class Exercise:
 
             else:
                 cprint(
-                    "OH NO! Correct answer"
-                    f"{'s ' if len(valid_answers) > 1 else ' '} would have been:\n",
+                    f"OH NO! The correct answer"
+                    f"{'s ' if len(valid_answers) > 1 else ' '} would have "
+                    f"been:\n",
                     "red",
                 )
                 for valid_answer in valid_answers:
@@ -122,11 +120,4 @@ class Exercise:
                 valid_answers.remove(answer)
                 return valid_answers, True
         else:
-            return valid_answers, False
-
-    def __quit(self):
-        cprint(
-            f"You spent {int((dt.datetime.now() - self.start).total_seconds() / 60)} "
-            " minutes in a useful manner. Bye Bye!\n",
-            "cyan",
-        )
+            return valid_answers, False        

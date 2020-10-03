@@ -8,7 +8,7 @@ from src.vocable import Vocable
 from src.io import cprint
 
 
-class Progress:
+class Lesson:
     DIR = ".progress"
     SEP = ";"
     SEQ_LENGTH = 3  # relevant progress sequence length
@@ -30,16 +30,20 @@ class Progress:
         return self.data[key]
 
     @property
+    def name(self):
+        return self.__vocab_file_name.split("__")[-1]
+
+    @property
     def __vocab_file_name(self):
         return basename(splitext(self.vocab_file_path)[0])
 
     @property
     def __dir(self):
-        return pathjoin(*[Progress.DIR, self.user, self.__vocab_file_name])
+        return pathjoin(*[Lesson.DIR, self.user, self.__vocab_file_name])
 
     @property
     def __path(self):
-        """Path where to take progress data from and where to store to.
+        """Path where to take lesson data from and where to store to.
 
         This depends on the vocable file, its last modification date and the
         user.
@@ -80,8 +84,7 @@ class Progress:
         """
         self.data.sort(
             key=lambda vocable: vocable.progress_rank(
-                self.SEQ_LENGTH, 
-                default=(self.SEQ_LENGTH-1)/self.SEQ_LENGTH
+                self.SEQ_LENGTH, default=(self.SEQ_LENGTH - 1) / self.SEQ_LENGTH
             )
         )
 
