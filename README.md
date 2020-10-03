@@ -14,13 +14,30 @@ That's it, you are set.
 
 # Create Custom Vocabulary
 
-Put your custom vocabulary in a [`csv`](https://en.wikipedia.org/wiki/Comma-separated_values) with either two or three columns, separated by semicolon (`";"`). You can create this file with a simple text editor or, if this is more convenient for you, with a spreadsheet program such as [OpenOffice](https://www.openoffice.org/product/calc.html) Calc, Microsoft Excel or GoogleSheets
+You can organize your vocabulary in _lessons_ and _courses_. A _lesson_ is a collection of vocables you want to train, and a course is a collection of lessons.
+
+## Lessons
+
+You can create a lesson by creating a simple [`csv`](https://en.wikipedia.org/wiki/Comma-separated_values) file with either two or three columns, separated by semicolon (`";"`). You can create this file with a simple text editor or, if this is more convenient for you, with a spreadsheet program such as [OpenOffice](https://www.openoffice.org/product/calc.html) Calc, Microsoft Excel or GoogleSheets
 
 The first column contains the vocable in the target language you want to train. The second column contains the vocable translated in your native language. The third column optionally contains a hint for the vocable. It is not mandatory to provide a third column; if you have a hint for some vocables in the file, you can still leave the third column empty for other vocables.
 
 If you want to name multiple synonyms of the vocable in one of the languages, write them into the same cell, separated by a pipe (`"|"`).
 
 For an example, have a look at the example csv file `example_vocabulary.csv` in the repository.
+
+## Courses
+
+For creating a course, simply put the lesson's csv files into one directory. The name of the directory will be the name of the course. The lessons will be named and sorted by their filename. For sorting, you can add a prefix to the name, separated by a double underscore (`"__"`). This prefix will be ignored for the name of the lesson. So, for instance, name your lessons like so:
+
++ `A__Nouns I.csv`
++ `B__Verbs I.csv`
++ `C__Idioms.csv`
++ `D__Nouns II.csv`
++ `E__Adjectives / Adverbs.csv`
++ `Z__Verbs II.csv`
+
+Make sure all your lessons file names have the `.csv` file extension, because only those files will be recognized as lessons. 
 
 # Run
 
@@ -30,13 +47,13 @@ __jargon__ does not have a graphical user interface, but runs on the command lin
 Now you can run the Python script:
 
 ```
-python3 jargon.py <RELATIVE PATH TO YOUR VOCABULARY CSV> 
+python3 jargon.py <RELATIVE PATH TO THE COURSE DIRECTORY> 
 ```
 
-For example:
+For example, to run the course "advanced_english" in the 
 
 ```
-python3 jargon.py ../lessons/advanced_english_from_german.csv 
+python3 jargon.py ../en/advanced_english
 ```
 
 
