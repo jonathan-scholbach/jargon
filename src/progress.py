@@ -1,10 +1,11 @@
 from collections import namedtuple
 from os.path import basename, exists, getmtime, join as pathjoin, splitext
 from os import makedirs
-
+import sys
 import typing as tp
 
 from src.vocable import Vocable
+from src.io import cprint
 
 
 class Progress:
@@ -54,12 +55,21 @@ class Progress:
             path = self.vocab_file_path
 
         with open(path, "r") as file:
-            self.data = [
-                Vocable(
-                    *[cell.strip() for cell in line.split(self.SEP)]
-                )
-                for line in file
-            ]
+            self.data = []
+
+            for index, line in enumerate(file):
+                try:
+                    self.data.append(
+                        Vocable(
+                            *[cell.strip() for cell in line.split(self.SEP)]
+                        )
+                    )
+                except:
+                    cprint(
+                        f"Lesson file '{self.vocab_file_path}' malformatted at "
+                        f"line {index + 1}.", "red"
+                    )
+                    sys.exit(0)
 
     def __sort(self):
         """Push entries with weak performance to the top.
