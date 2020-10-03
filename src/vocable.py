@@ -9,7 +9,7 @@ class Vocable:
         target: str,
         source: str,
         hint: str = "",
-        progress: str = "0",
+        progress: str = "",
         inverted: bool = False,
     ) -> None:
         """
@@ -22,9 +22,9 @@ class Vocable:
         self.raw_target = target
         self.raw_source = source
         self.hint = hint
-        self.progress = progress or "0"
+        self.progress = progress
         self._inverted = inverted
-        
+
     def __repr__(self) -> str:
         return f"{self.source}: {self.target}, {self.progress}"
 
@@ -33,7 +33,7 @@ class Vocable:
 
     def __eq__(self, other: "Vocable") -> bool:
         return (
-            self.raw_target == other.raw_target 
+            self.raw_target == other.raw_target
             and self.raw_source == other.raw_source
         )
 
@@ -49,9 +49,14 @@ class Vocable:
 
         return [synonym.strip() for synonym in target.split(self.SYNONYM_SEP)]
 
-    def progress_rank(self, max_seq_length: int) -> tp.Tuple[float, int]:
+    def progress_rank(
+        self, max_seq_length: int, default: float = 0.6
+    ) -> tp.Tuple[float, int]:
         """Average performance and number of previous training rounds."""
-        res =  (
+        if not self.progress:  # vocable has not been trained before
+            return default, len(self.progress)
+
+        return (
             sum(
                 [  # average performance
                     int(char)
@@ -61,14 +66,14 @@ class Vocable:
                 ]
             )
             / len(self.progress)
-        ), len(self.progress)  # number of previous training rounds
-
-        return res
+        ), len(
+            self.progress
+        )  # number of previous training rounds
 
     def invert(self):
         return Vocable(
             target=self.raw_target,
             source=self.raw_source,
             progress=self.progress,
-            inverted=not self._inverted
+            inverted=not self._inverted,
         )

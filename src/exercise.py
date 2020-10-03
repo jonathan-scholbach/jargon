@@ -44,7 +44,7 @@ class Exercise:
         clear()
 
         cprint(" | ".join(vocable.source) + "\n\n", "yellow")
-        
+
         valid_answers = vocable.target
 
         while valid_answers:
@@ -55,12 +55,17 @@ class Exercise:
 
             if answer == "?":
                 print()
-                cprint(f"({vocable.hint})" if vocable.hint else "No hint available", "magenta")
+                cprint(
+                    f"({vocable.hint})"
+                    if vocable.hint
+                    else "No hint available",
+                    "magenta",
+                )
                 print()
                 continue
 
             print("\n")
-            
+
             valid_answers, answer_correct = self.__evaluate_answer(
                 answer=answer,
                 valid_answers=valid_answers,

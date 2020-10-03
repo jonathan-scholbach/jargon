@@ -67,7 +67,8 @@ class Progress:
                 except:
                     cprint(
                         f"Lesson file '{self.vocab_file_path}' malformatted at "
-                        f"line {index + 1}.", "red"
+                        f"line {index + 1}.",
+                        "red",
                     )
                     sys.exit(0)
 
@@ -78,7 +79,10 @@ class Progress:
         the vocable with lesser practice.
         """
         self.data.sort(
-            key=lambda vocable: vocable.progress_rank(self.SEQ_LENGTH)
+            key=lambda vocable: vocable.progress_rank(
+                self.SEQ_LENGTH, 
+                default=(self.SEQ_LENGTH-1)/self.SEQ_LENGTH
+            )
         )
 
     def __store(self) -> None:
@@ -88,14 +92,19 @@ class Progress:
             for vocable in self.data:
                 file.write(
                     self.SEP.join(
-                        [vocable.raw_target, vocable.raw_source, vocable.hint, vocable.progress]
+                        [
+                            vocable.raw_target,
+                            vocable.raw_source,
+                            vocable.hint,
+                            vocable.progress,
+                        ]
                     )
                     + "\n"
                 )
 
     def __find(self, vocable: str) -> tp.Optional[int]:
         return self.data.index(vocable)
-            
+
     def enter_result(self, vocable: "Vocable", result: bool):
         index = self.__find(vocable)
         vocable = self.data[index]
@@ -116,4 +125,4 @@ class Progress:
         )
         vocable = vocable.invert() if self._inverted else vocable
 
-        return vocable 
+        return vocable
