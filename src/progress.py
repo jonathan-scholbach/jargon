@@ -88,7 +88,7 @@ class Progress:
             for vocable in self.data:
                 file.write(
                     self.SEP.join(
-                        [vocable.raw_target, vocable.raw_source, vocable.progress]
+                        [vocable.raw_target, vocable.raw_source, vocable.hint, vocable.progress]
                     )
                     + "\n"
                 )

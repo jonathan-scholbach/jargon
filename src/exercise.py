@@ -53,6 +53,12 @@ class Exercise:
             if answer == "x":
                 raise TerminateError
 
+            if answer == "?":
+                print()
+                cprint(f"({vocable.hint})" if vocable.hint else "No hint available", "magenta")
+                print()
+                continue
+
             print("\n")
             
             valid_answers, answer_correct = self.__evaluate_answer(

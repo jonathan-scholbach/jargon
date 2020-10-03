@@ -8,6 +8,7 @@ class Vocable:
         self,
         target: str,
         source: str,
+        hint: str = "",
         progress: str = "0",
         inverted: bool = False,
     ) -> None:
@@ -20,6 +21,7 @@ class Vocable:
         """
         self.raw_target = target
         self.raw_source = source
+        self.hint = hint
         self.progress = progress or "0"
         self._inverted = inverted
         

@@ -14,9 +14,9 @@ That's it, you are set.
 
 # Create Custom Vocabulary
 
-Your custom vocabulary must be put in a [`csv`](https://en.wikipedia.org/wiki/Comma-separated_values) file which has to have two columns, separated by semicolon (`";"`). You can create this file with a simple text editor or, if this is more convenient for you, with a spreadsheet program such as [OpenOffice](https://www.openoffice.org/product/calc.html) Calc, Microsoft Excel or GoogleSheets
+Put your custom vocabulary in a [`csv`](https://en.wikipedia.org/wiki/Comma-separated_values) with either two or three columns, separated by semicolon (`";"`). You can create this file with a simple text editor or, if this is more convenient for you, with a spreadsheet program such as [OpenOffice](https://www.openoffice.org/product/calc.html) Calc, Microsoft Excel or GoogleSheets
 
-The first column contains the vocable in the target language you want to train. The second column contains the vocable translated in your native language.
+The first column contains the vocable in the target language you want to train. The second column contains the vocable translated in your native language. The third column optionally contains a hint for the vocable. It is not mandatory to provide a third column; if you have a hint for some vocables in the file, you can still leave the third column empty for other vocables.
 
 If you want to name multiple synonyms of the vocable in one of the languages, write them into the same cell, separated by a pipe (`"|"`).
 
@@ -55,6 +55,8 @@ Besides setting these flags, you can (optionally) specify the following variable
 + `-u` (or, with the same effect: `--user`): You can enter a user's name to keep track of progress individually.
 
 
-## Finish
+## During the Exercise
 
-To finish your exercise, just type `"x"` when prompted for the vocabulary answer.
+When prompted for a certain vocable, you can ask for a hint to be displayed by typing a question mark (`"?"`) instead of an answer.
+
+To finish your exercise, just type `"x"` when prompted for the vocable.
