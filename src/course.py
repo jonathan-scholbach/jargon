@@ -3,7 +3,7 @@ import typing as tp
 
 from src.lesson import Lesson
 from src.exercise import Exercise
-from src.io import cprint, clear, Table, date_diff
+from src.io import cprint, clear, Table, date_diff, title_from_path
 
 
 class Course:
@@ -20,6 +20,25 @@ class Course:
         self.inverted = inverted
         self.allow_typos = allow_typos
         self.treat_synonyms_as_alternatives = treat_synonyms_as_alternatives
+
+    @property
+    def name(self):
+        return title_from_path(self.dir)
+
+    @property
+    def description(self):
+        try:
+            path = next(
+                filter(
+                    lambda f: os.path.splitext(f)[1] == ".txt",
+                    os.listdir(self.dir),
+                )
+            )
+            with open(os.path.join(self.dir, path)) as file:
+                return file.read()
+
+        except StopIteration:
+            return ""
 
     @property
     def lessons(self) -> tp.List["Lesson"]:
@@ -39,6 +58,9 @@ class Course:
     def run(self) -> None:
         while True:
             clear()
+            cprint(f"COURSE: {self.name}", "white")
+            cprint(self.description, "green")
+            print()
             cprint("Choose a lesson from the course (by its number):\n", "cyan")
 
             header = ["No.", "LESSON", "ACCOMPLISHMENT", "LAST EXERCISE"]

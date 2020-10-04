@@ -37,7 +37,9 @@ For creating a course, simply put the csv files of the lessons into one director
 + `E__Adjectives / Adverbs.csv`
 + `Z__Verbs II.csv`
 
-Make sure all your lessons file names have the `.csv` file extension, because only those files will be recognized as lessons. 
+Make sure all your lessons file names have the `.csv` file extension, because only those files will be recognized as lessons.
+
+You can also include one `.txt` file in the course's directory which is supposed to contain a short description of the course.
 
 # Run
 

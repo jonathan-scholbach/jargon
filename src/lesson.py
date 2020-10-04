@@ -7,7 +7,7 @@ import sys
 import typing as tp
 
 from src.vocable import Vocable
-from src.io import cprint
+from src.io import cprint, title_from_path
 
 
 class Lesson:
@@ -33,7 +33,7 @@ class Lesson:
 
     @property
     def name(self):
-        return self.__vocab_file_name.split("__")[-1]
+        return title_from_path(self.__vocab_file_name)
 
     @property
     def accomplishment_rate(self) -> tp.Tuple[float, int]:

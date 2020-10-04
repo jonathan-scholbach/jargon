@@ -51,10 +51,12 @@ class Vocable:
 
     @property
     def hint(self) -> str:
-        return self._hint or " ".join([
-            word[0] + "*" * (len(word) - 1)
-            for word in self.target[0].split(" ")
-        ])
+        return self._hint or " ".join(
+            [
+                word[0] + "*" * (len(word) - 1)
+                for word in self.target[0].split(" ")
+            ]
+        )
 
     def progress_rank(
         self, max_seq_length: int, default: float = 0.6
