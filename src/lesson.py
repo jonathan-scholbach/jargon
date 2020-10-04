@@ -1,7 +1,8 @@
 from collections import namedtuple
-import datetime as dt
+from itertools import groupby
 from os.path import basename, exists, getmtime, join as pathjoin, splitext
 from os import makedirs
+from random import shuffle
 import sys
 import typing as tp
 
@@ -115,16 +116,24 @@ class Lesson:
                     sys.exit(0)
 
     def __sort(self):
-        """Push entries with weak performance to the top.
+        """Order with entries with weaker on the top.
 
         If performance of two entries equals over recent exercises, prioritize
         the vocable with lesser practice.
         """
-        self.data.sort(
-            key=lambda vocable: vocable.progress_rank(
-                self.SEQ_LENGTH, default=(self.SEQ_LENGTH - 1) / self.SEQ_LENGTH
-            )
+
+        order = lambda vocable: vocable.progress_rank(
+            self.SEQ_LENGTH, default=(self.SEQ_LENGTH - 1) / self.SEQ_LENGTH
         )
+        self.data.sort(key=order)
+
+        data = []
+        for _, group in groupby(self.data, key=order):
+            items = [i for i in group]
+            shuffle(items)
+            data += items
+
+        self.data = data
 
     def __store(self) -> None:
         if not exists(self.__path):

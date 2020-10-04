@@ -26,7 +26,7 @@ class Vocable:
         self._inverted = inverted
 
     def __repr__(self) -> str:
-        return f"{self.source}: {self.target}, {self.progress}"
+        return f"{self.raw_source}: {self.raw_target}, {self.progress}"
 
     def __iter__(self):
         return iter([self.raw_target, self.raw_source, self.progress])

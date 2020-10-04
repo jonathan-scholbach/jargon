@@ -10,23 +10,27 @@ WEEK = 7 * DAY
 MONTH = 31 * DAY
 
 
+def __plural(count: int, dimension: str):
+    return f"{count} {dimension}{'s' if count != 1 else ''}"
+
+
 def date_diff(since_epoch: tp.Optional[float]) -> str:
     if not since_epoch:
         return "never"
 
     now = time.time()
-    diff = now-since_epoch
+    diff = now - since_epoch
 
     if diff > MONTH:
         res = "> 1 month"
     elif diff > WEEK:
-        res = str(int(diff / WEEK)) + " weeks"
+        res = __plural(int(diff / WEEK), "week")
     elif diff > DAY:
-        res = str(int(diff / DAY)) + " days"
+        res = __plural(int(diff / DAY), "day")
     elif diff > HOUR:
-        res = str(int(diff / HOUR)) + " hours"
+        res = __plural(int(diff / HOUR), "hour")
     elif diff > MINUTE:
-        res = str(int(diff / MINUTE)) + " minutes"
+        res = __plural(int(diff / MINUTE), "minute")
     else:
         res = "< 1 minute"
 
