@@ -3,7 +3,7 @@ import typing as tp
 
 from src.lesson import Lesson
 from src.exercise import Exercise
-from src.io import cprint, clear, Table
+from src.io import cprint, clear, Table, date_diff
 
 
 class Course:
@@ -41,12 +41,17 @@ class Course:
             clear()
             cprint("Choose a lesson from the course (by its number):\n", "cyan")
 
-            header = ["No.", "LESSON", "ACCOMPLISHMENT"]
+            header = ["No.", "LESSON", "ACCOMPLISHMENT", "LAST EXERCISE"]
 
             Table(
                 rows=[header]
                 + [
-                    [index + 1, lesson.name, f"{lesson.accomplishment_rate:.0%}"]
+                    [
+                        index + 1,
+                        lesson.name,
+                        f"{lesson.accomplishment_rate:.0%}",
+                        date_diff(lesson.last_exercise_date),
+                    ]
                     for index, lesson in enumerate(self.lessons)
                 ]
             ).print()

@@ -47,7 +47,7 @@ class Table:
     def rows(self) -> tp.List[tp.List[str]]:
         return [
             [
-                (cell + " " * self.MAX_WIDTH)[:self.__col_widths[col_index]]
+                (cell + " " * self.MAX_WIDTH)[: self.__col_widths[col_index]]
                 for col_index, cell in enumerate(row)
             ]
             for row in self.raw_rows

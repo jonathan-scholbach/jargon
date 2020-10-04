@@ -10,11 +10,11 @@ With Python 3.8  installed, open a terminal, move to the location you want to in
 git clone git@github.com:jonathan-scholbach/jargon.git
 ```
 
-That's it, you are set.
+That's it.
 
 # Create Custom Vocabulary
 
-You can organize your vocabulary in _lessons_ and _courses_. A _lesson_ is a collection of vocables you want to train, and a course is a collection of lessons.
+You can organize your vocabulary in _lessons_ and _courses_. A _lesson_ is a collection of vocables you want to train, and a _course_ is a collection of lessons.
 
 ## Lessons
 
@@ -28,7 +28,7 @@ For an example, have a look at the example csv file `example_vocabulary.csv` in 
 
 ## Courses
 
-For creating a course, simply put the lesson's csv files into one directory. The name of the directory will be the name of the course. The lessons will be named and sorted by their filename. For sorting, you can add a prefix to the name, separated by a double underscore (`"__"`). This prefix will be ignored for the name of the lesson. So, for instance, name your lessons like so:
+For creating a course, simply put the csv files of the lessons into one directory. The lessons will be named and sorted by their filename. For sorting purposes, you can add a prefix to the name, separated by a double underscore (`"__"`) which will be ignored for the naming of the lesson. So, for instance, name your lessons like so:
 
 + `A__Nouns I.csv`
 + `B__Verbs I.csv`
@@ -65,7 +65,7 @@ When you invoke the script, you can (optionally) set several flags which change 
 
 + `-t` (or, with the same effect: `--typo`): This will make the program consider answers valid if they contain a typo.
 
-+ `-i` (or, with the same effect: `--invert`): This flips the languages in the vocabulary file, i.e. it will make the program consider present you questions in the target language and ask for answers in your native language.
++ `-i` (or, with the same effect: `--invert`): This flips the languages in the vocabulary file, i.e. it will make the program present questions in the target language and ask for answers in your native language.
 
 Besides setting these flags, you can (optionally) specify the following variables:
 

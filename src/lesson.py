@@ -1,4 +1,5 @@
 from collections import namedtuple
+import datetime as dt
 from os.path import basename, exists, getmtime, join as pathjoin, splitext
 from os import makedirs
 import sys
@@ -39,19 +40,23 @@ class Lesson:
             vocable.accomplish_rate(self.SEQ_LENGTH) for vocable in self.data
         ) / len(self.data)
 
+    @property
+    def last_exercise_date(self):
+        if exists(self.__path):
+            return dt.datetime.utcfromtimestamp(getmtime(self.__path))
+
     def next_vocable(self, blocked_vocables=tp.List["Vocable"]) -> "Vocable":
         self.__sort()
         try:
             vocable = next(
                 vocab
-                for vocab in self[: max(len(blocked_vocables) + 1, len(self.data))]
+                for vocab in self[
+                    : max(len(blocked_vocables) + 1, len(self.data))
+                ]
                 if vocab not in blocked_vocables
             )
         except StopIteration:
-            vocable = next(
-                vocab
-                for vocab in self[:len(self.data)]
-            )
+            vocable = next(vocab for vocab in self[: len(self.data)])
         vocable = vocable.invert() if self._inverted else vocable
 
         return vocable
