@@ -1,4 +1,4 @@
-__jargon__ is a minimalistic vocabulary trainer. Its main purpose is to keep creating and sharing your custom vocabulary simple, making it easier to learn domain-specific vocabulary. During practise, __jargon__ keeps track of your learning progress on every item, and trains your weakest items most.
+__jargon__ is a vocabulary trainer. Its main purpose is to keep creating and sharing your custom vocabulary simple, making it easier to learn domain-specific vocabulary. During practise, __jargon__ keeps track of your learning progress on every item, and trains your weakest items most.
 
 # Install
 
@@ -14,7 +14,7 @@ That's it.
 
 # Create Custom Vocabulary
 
-You can organize your vocabulary in _lessons_ and _courses_. A _lesson_ is a collection of vocables you want to train, and a _course_ is a collection of lessons.
+You can organize your vocabulary in _lessons_ and _courses_. A _lesson_ is a collection of vocables you want to train, and a _course_ is a collection of lessons. For examples, have a look at the `vocabulary` directory. 
 
 ## Lessons
 
@@ -23,8 +23,6 @@ You can create a lesson by creating a simple [`csv`](https://en.wikipedia.org/wi
 The first column contains the vocable in the target language you want to train. The second column contains the vocable translated in your native language. The third column optionally contains a hint for the vocable. It is not mandatory to provide a third column; if you have a hint for some vocables in the file, you can still leave the third column empty for other vocables.
 
 If you want to name multiple synonyms of the vocable in one of the languages, write them into the same cell, separated by a pipe (`"|"`).
-
-For an example, have a look at the example csv file `example_vocabulary.csv` in the repository.
 
 ## Courses
 
@@ -79,3 +77,9 @@ Besides setting these flags, you can (optionally) specify the following variable
 When prompted for a certain vocable, you can ask for a hint to be displayed by typing a question mark (`"?"`) instead of an answer.
 
 To finish your exercise, just type `"x"` when prompted for the vocable.
+
+# Contribute
+
+If you encounter a bug or have an idea for an additional feature, please open a GitHub issue.
+
+If you would like to share your vocabulary, I am happy to receive a pull request with your course directories in `vocabulary/`.
