@@ -1,20 +1,21 @@
 import typing as tp
-import datetime as dt
+import time
 
 
-MONTH = 60 * 60 * 24 * 31
-WEEK = 60 * 60 * 24 * 7
-DAY = 60 * 60 * 24
-HOUR = 60 * 60
-MINUTE = 60
+SECOND = 1
+MINUTE = 60 * SECOND
+HOUR = 60 * MINUTE
+DAY = 24 * HOUR
+WEEK = 7 * DAY
+MONTH = 31 * DAY
 
 
-def date_diff(datetime: tp.Optional["dt.datetime"]) -> str:
-    if not datetime:
+def date_diff(since_epoch: tp.Optional[float]) -> str:
+    if not since_epoch:
         return "never"
 
-    now = dt.datetime.now()
-    diff = (now - datetime).total_seconds()
+    now = time.time()
+    diff = now-since_epoch
 
     if diff > MONTH:
         res = "> 1 month"

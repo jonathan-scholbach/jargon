@@ -43,7 +43,7 @@ class Lesson:
     @property
     def last_exercise_date(self):
         if exists(self.__path):
-            return dt.datetime.utcfromtimestamp(getmtime(self.__path))
+            return getmtime(self.__path)
 
     def next_vocable(self, blocked_vocables=tp.List["Vocable"]) -> "Vocable":
         self.__sort()
