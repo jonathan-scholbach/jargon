@@ -120,4 +120,4 @@ class Exercise:
                 valid_answers.remove(answer)
                 return valid_answers, True
         else:
-            return valid_answers, False        
+            return valid_answers, False

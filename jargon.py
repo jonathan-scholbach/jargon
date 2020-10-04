@@ -20,8 +20,8 @@ if __name__ == "__main__":
     if not os.path.isdir(path):
         cprint(
             "\nThis is not a directory. (You must name the directory "
-            "containing your lessons' csv files.)\n", 
-            "red"
+            "containing your lessons' csv files.)\n",
+            "red",
         )
 
         sys.exit()
@@ -42,4 +42,3 @@ if __name__ == "__main__":
         f"a useful manner. Bye Bye!\n",
         "cyan",
     )
-    

@@ -34,6 +34,33 @@ class Lesson:
         return self.__vocab_file_name.split("__")[-1]
 
     @property
+    def accomplishment_rate(self) -> tp.Tuple[float, int]:
+        return sum(
+            vocable.accomplish_rate(self.SEQ_LENGTH) for vocable in self.data
+        ) / len(self.data)
+
+    def next_vocable(self, blocked_vocables=tp.List["Vocable"]) -> "Vocable":
+        self.__sort()
+        vocable = next(
+            vocab
+            for vocab in self[: max(len(blocked_vocables) + 1, len(self.data))]
+            if vocab not in blocked_vocables
+        )
+        vocable = vocable.invert() if self._inverted else vocable
+
+        return vocable
+
+    def enter_result(self, vocable: "Vocable", result: bool):
+        index = self.__find(vocable)
+        vocable = self.data[index]
+        self.data[index] = Vocable(
+            source=vocable.raw_source,
+            target=vocable.raw_target,
+            progress=vocable.progress + str(int(result)),
+        )
+        self.__store()
+
+    @property
     def __vocab_file_name(self):
         return basename(splitext(self.vocab_file_path)[0])
 
@@ -107,25 +134,3 @@ class Lesson:
 
     def __find(self, vocable: str) -> tp.Optional[int]:
         return self.data.index(vocable)
-
-    def enter_result(self, vocable: "Vocable", result: bool):
-        index = self.__find(vocable)
-        vocable = self.data[index]
-        self.data[index] = Vocable(
-            source=vocable.raw_source,
-            target=vocable.raw_target,
-            progress=vocable.progress + str(int(result)),
-        )
-        self.__store()
-
-    def next_vocable(self, blocked_vocables=tp.List["Vocable"]) -> "Vocable":
-        self.__sort()
-
-        vocable = next(
-            vocab
-            for vocab in self[: max(len(blocked_vocables) + 1, len(self.data))]
-            if vocab not in blocked_vocables
-        )
-        vocable = vocable.invert() if self._inverted else vocable
-
-        return vocable

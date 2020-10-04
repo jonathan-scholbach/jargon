@@ -56,19 +56,21 @@ class Vocable:
         if not self.progress:  # vocable has not been trained before
             return default, 0
 
-        return (
-            sum(
-                [  # average performance
-                    int(char)
-                    for char in self.progress[
-                        -min(max_seq_length, len(self.progress))
-                    ]
-                ]
-            )
-            / len(self.progress)
-        ), len(
-            self.progress
-        )  # number of previous training rounds
+        return self.average_progress(max_seq_length), len(self.progress)
+
+    def accomplish_rate(self, seq_len: int):
+        if not self.progress:
+            return 0
+
+        return sum(int(char) for char in self.progress[-seq_len:]) / seq_len
+
+    def average_progress(self, seq_len: int) -> float:
+        if not self.progress:
+            return 0
+
+        seq_len = min(seq_len, len(self.progress))
+
+        return sum(int(char) for char in self.progress[-seq_len:]) / seq_len
 
     def invert(self):
         return Vocable(
