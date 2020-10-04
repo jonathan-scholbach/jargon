@@ -21,7 +21,7 @@ class Vocable:
         """
         self.raw_target = target
         self.raw_source = source
-        self.hint = hint
+        self._hint = hint
         self.progress = progress
         self._inverted = inverted
 
@@ -48,6 +48,12 @@ class Vocable:
         target = self.raw_source if self._inverted else self.raw_target
 
         return [synonym.strip() for synonym in target.split(self.SYNONYM_SEP)]
+
+    @property
+    def hint(self) -> str:
+        if self._hint:
+            return self._hint
+        return self.target[0][0] + "*" * (len(self.target[0])-1)
 
     def progress_rank(
         self, max_seq_length: int, default: float = 0.6
