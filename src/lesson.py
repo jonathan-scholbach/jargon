@@ -41,11 +41,17 @@ class Lesson:
 
     def next_vocable(self, blocked_vocables=tp.List["Vocable"]) -> "Vocable":
         self.__sort()
-        vocable = next(
-            vocab
-            for vocab in self[: max(len(blocked_vocables) + 1, len(self.data))]
-            if vocab not in blocked_vocables
-        )
+        try:
+            vocable = next(
+                vocab
+                for vocab in self[: max(len(blocked_vocables) + 1, len(self.data))]
+                if vocab not in blocked_vocables
+            )
+        except StopIteration:
+            vocable = next(
+                vocab
+                for vocab in self[:len(self.data)]
+            )
         vocable = vocable.invert() if self._inverted else vocable
 
         return vocable

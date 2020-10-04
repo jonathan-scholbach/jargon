@@ -41,7 +41,7 @@ class Course:
             clear()
             cprint("Choose a lesson from the course (by its number):\n", "cyan")
 
-            header = ["No.", "LESSON", "PROGRESS"]
+            header = ["No.", "LESSON", "ACCOMPLISHMENT"]
 
             Table(
                 rows=[header]
