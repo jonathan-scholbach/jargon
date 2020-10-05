@@ -12,3 +12,12 @@ def title_from_path(file_path: str):
     return __title(
         basename(path).split("__")[-1].replace("_", " ")  # throw away prefix
     )
+
+def pluralize(count: int, dimension: str):
+    return f"{count} {dimension}{'s' if count != 1 else ''}"
+
+def mask(s): 
+    return " ".join([
+        word[0] + "*" * (len(word) - 1)
+        for word in s.split()
+    ])

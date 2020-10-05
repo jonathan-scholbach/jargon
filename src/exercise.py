@@ -2,7 +2,7 @@ import datetime as dt
 import typing as tp
 
 from src.errors import TerminateError
-from src.io import clear, cprint
+from src.io import clear, cprint, pluralize, mask
 from src.utils import damerau_levenshtein
 
 
@@ -55,7 +55,7 @@ class Exercise:
             if answer == "?":
                 print()
                 cprint(
-                    vocable.hint if vocable.hint else "No hint available",
+                    vocable.hint or mask(valid_answers[0]),
                     "magenta",
                 )
                 print()
@@ -71,7 +71,11 @@ class Exercise:
             if answer_correct:
                 cprint("WELL DONE!", "green")
                 if valid_answers:
-                    cprint("Keep on naming synonyms!\n", "cyan")
+                    cprint(
+                        f"Name "
+                        f"{pluralize(len(valid_answers), 'more synonym')}!\n", 
+                        "cyan"
+                    )
 
             else:
                 cprint(
