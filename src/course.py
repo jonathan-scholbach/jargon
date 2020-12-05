@@ -61,7 +61,12 @@ class Course:
             cprint(f"COURSE: {self.name}", "white")
             cprint(self.description, "green")
             print()
-            cprint("Choose a lesson from the course (by its number):\n", "cyan")
+            cprint(
+                "Choose a lesson from the course (by its number). "
+                "You can also combine multiple lessons, by separating the "
+                "lesson numbers by comma:\n",
+                "cyan",
+            )
 
             header = ["No.", "LESSON", "ACCOMPLISHMENT", "LAST EXERCISE"]
 
@@ -82,11 +87,11 @@ class Course:
             if inp == "q":
                 break
 
-            lesson_index = int(inp) - 1
-            lesson = self.lessons[lesson_index]
+            lesson_indices = map(lambda s: int(s.strip()) - 1, inp.split(","))
+            lessons = map(lambda index: self.lessons[index], lesson_indices)
 
             Exercise(
-                lesson=lesson,
+                lessons=lessons,
                 allow_typos=self.allow_typos,
                 treat_synonyms_as_alternatives=self.treat_synonyms_as_alternatives,
             ).run()

@@ -9,17 +9,21 @@ from src.utils import damerau_levenshtein
 class Exercise:
     def __init__(
         self,
-        lesson: "Lesson",
+        lessons: tp.Iterator["Lesson"],
         treat_synonyms_as_alternatives: bool = False,
         allow_typos: bool = False,
         resubmission_interval: int = 5,
     ) -> None:
-        self.lesson = lesson
+        self._lessons = list(lessons)
         self.treat_synonyms_as_alternatives = treat_synonyms_as_alternatives
         self.allow_typos = allow_typos
 
         self.blocked_vocables = []
         self.resubmission_interval = resubmission_interval
+
+    @property
+    def lesson(self):
+        return sorted(self._lessons, key=lambda l: l.accomplishment_rate)[0]
 
     def run(self):
         vocable = self.lesson.next_vocable(self.blocked_vocables)
@@ -73,8 +77,8 @@ class Exercise:
                 if valid_answers:
                     cprint(
                         f"Name "
-                        f"{pluralize(len(valid_answers), 'more synonym')}!\n", 
-                        "cyan"
+                        f"{pluralize(len(valid_answers), 'more synonym')}!\n",
+                        "cyan",
                     )
 
             else:
